@@ -1,5 +1,5 @@
 #include "graph_viewer.h"
-#include <qwt_legend_data.h>
+#include "qwt_legend_data.h"
 
 graph_viewer::graph_viewer(QWidget *parent, QSize initSize) : QWidget(parent)
 {

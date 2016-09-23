@@ -34,7 +34,6 @@ void parseArgs(int argc, char *argv[]);
 
 int main(int argc, char *argv[])
 {
-    std::cout<<"made it this far1"<<std::endl;
     parseArgs(argc, argv);
     QApplication app(argc, argv);
     MainWindow *mw;

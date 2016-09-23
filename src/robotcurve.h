@@ -3,10 +3,10 @@
 
 #include <QWidget>
 #include "proto/cpp/messages_robocup_ssl_wrapper.pb.h"
-#include <qwt.h>
-#include <qwt_plot.h>
-#include <qwt_plot_curve.h>
-#include <qwt_text.h>
+#include "qwt.h"
+#include "qwt_plot.h"
+#include "qwt_plot_curve.h"
+#include "qwt_text.h"
 #include <vector>
 #include <math.h>
 #include <iostream>

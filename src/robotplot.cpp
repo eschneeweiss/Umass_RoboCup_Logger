@@ -3,7 +3,7 @@
 RobotPlot::RobotPlot(QWidget *parent) : QwtPlot(parent)
 {
     //TODO (Eddy) when back tracking delete past
-    qRegisterMetaType<QList<QwtLegendData>>();
+    qRegisterMetaType<QList<QwtLegendData> >();
 
     setAutoReplot(true);
 

@@ -3,19 +3,19 @@
 
 #include <QWidget>
 #include "proto/cpp/messages_robocup_ssl_wrapper.pb.h"
-#include <qwt.h>
-#include <qwt_plot.h>
-#include <qwt_plot_curve.h>
-#include <qwt_text.h>
+#include "qwt.h"
+#include "qwt_plot.h"
+#include "qwt_plot_curve.h"
+#include "qwt_text.h"
 #include <vector>
 #include <math.h>
 #include <iostream>
 #include <QVector>
-#include <robotcurve.h>
+#include "robotcurve.h"
 #include <limits>
-#include <qwt_legend.h>
+#include "qwt_legend.h"
 
-#include <qwt_legend_data.h>
+#include "qwt_legend_data.h"
 Q_DECLARE_METATYPE(QList<QwtLegendData>)
 
 class RobotPlot : public QwtPlot
