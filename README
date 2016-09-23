@@ -1,1 +1,23 @@
-TODO: write readme
+Software requirements:
+
+  -g++
+
+  -qt5 >= 5.5.1
+
+  -Google protocol buffers (protoc)
+
+  -OpenGL
+
+  -GLU
+
+To download:
+
+sudo apt-get install g++ qt5-default protobuf-compiler libprotobuf-dev
+
+
+Installation instructions:
+
+1. cd into the Umass_RoboCup_Logger package
+2. run qmake on Umass_RoboCup_Logger.pro
+3. run make
+
