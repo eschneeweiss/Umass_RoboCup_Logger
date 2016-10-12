@@ -18,24 +18,6 @@ void RobotCurve::addDataPoint(double x, double y, double time){
         timeData.push_back(time);
         speedData.push_back(calcSpeed());
         accelData.push_back(calcAccel());
-        std::cout<<"pushed back Data point"<<std::endl;
-    }
-    else {
-        for (int i = 0; i < timeData.size() - 1; i++){
-            if (timeData.data()[i] >= time){
-                if (time == timeData[i]){
-                    std::cout<<"Time-match found at time = "<<time<<", index = "<<i<<std::endl;
-                    break;
-                }
-                xData.insert(i, x);
-                yData.insert(i, y);
-                timeData.insert(i, time);
-                speedData.insert(i, calcSpeed());
-                accelData.insert(i, calcAccel());
-                std::cout<<"Data point inserted at time = "<<time<<", index = "<<i<<std::endl;
-                break;
-            }
-        }
     }
     trimData(time);
     update();
@@ -54,23 +36,19 @@ void RobotCurve::trimData(double currTime){
         currTime = timeData.last();
     }
 
-    while(currTime - timeData.first() >= timePeriod){
-        std::cout<<"trimmed graph"<<std::endl;
+    while(!timeData.isEmpty() && currTime - timeData.first() >= timePeriod){
         xData.removeFirst();
         yData.removeFirst();
         speedData.removeFirst();
         accelData.removeFirst();
         timeData.removeFirst();
-        std::cout<<"graph holds "<<timeData.size()<<" data points"<<std::endl;
     }
-    while(timeData.last() - currTime >= timePeriod){
-        std::cout<<"trimmed graph backwards"<<std::endl;
+    while(!timeData.isEmpty() && timeData.last() > currTime){
         xData.removeLast();
         yData.removeLast();
         speedData.removeLast();
         accelData.removeLast();
         timeData.removeLast();
-        std::cout<<"graph holds "<<timeData.size()<<" data points"<<std::endl;
     }
 }
 

@@ -4,20 +4,21 @@
 #include <QWidget>
 #include "proto/cpp/messages_robocup_ssl_wrapper.pb.h"
 #include <QTreeWidget>
+#include "trashcan.h"
 //temp
 #include <iostream>
+
+class MainWindow;
 
 class textData_viewer : public QWidget
 {
     Q_OBJECT
 public:
-    explicit textData_viewer(QWidget *parent, QSize initSize);
+    explicit textData_viewer(QWidget *parent);
     ~textData_viewer();
 
-    virtual QSize sizeHint();
-
 private:
-    QSize initSize;
+    MainWindow *mw;
     SSL_WrapperPacket *packet = NULL;
     QTreeWidget *treeWidget;
     void updateTreeRecursive(const google::protobuf::Message *m, QTreeWidgetItem *parent);

@@ -1,10 +1,10 @@
 #include "textdata_viewer.h"
+#include "mainwindow.h"
 #include <QtWidgets>
 
-textData_viewer::textData_viewer(QWidget *parent, QSize initSize) : QWidget(parent)
+textData_viewer::textData_viewer(QWidget *parent) : QWidget(parent)
 {
-    this->initSize = initSize;
-    std::cout<<"textData_viewer initSize: w"<<this->initSize.width()<<", h"<<this->initSize.height()<<std::endl;
+    mw = (MainWindow*)parent;
 
     QPushButton *update = new QPushButton();
     update->setText(tr("Update"));
@@ -25,12 +25,9 @@ textData_viewer::textData_viewer(QWidget *parent, QSize initSize) : QWidget(pare
     vLayout->addWidget(treeWidget);
 }
 
-QSize textData_viewer::sizeHint(){
-    std::cout<<"textData_viewer sizeHint called"<<std::endl;
-    return initSize;
-}
-
 void textData_viewer::updateDisplay(SSL_WrapperPacket *packet){
+    //temp. Should throw away after updating tree
+    mw->trashCan->throwAway(this->packet);
     this->packet = packet;
     //updateTree();
 }

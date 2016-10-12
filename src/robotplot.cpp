@@ -69,6 +69,30 @@ bool RobotPlot::removeObject(int id, enum ObjectType ot){
     }
 }
 
+void RobotPlot::removeUnupdatedObjects(double currentTime, enum ObjectType ot){
+    if (ot == yellowBot){
+        for (int i = 0; i < yellowBotCurves->size(); i++){
+            if(yellowBotCurves->data()[i]->getCurrentTime() != currentTime){
+                yellowBotCurves->remove(i);
+            }
+        }
+    }
+    else if (ot == blueBot){
+        for (int i = 0; i < blueBotCurves->size(); i++){
+            if(blueBotCurves->data()[i]->getCurrentTime() != currentTime){
+                blueBotCurves->remove(i);
+            }
+        }
+    }
+    else {
+        for (int i = 0; i < ballCurves->size(); i++){
+            if(ballCurves->data()[i]->getCurrentTime() != currentTime){
+                ballCurves->remove(i);
+            }
+        }
+    }
+}
+
 bool RobotPlot::hideObject(int id, enum ObjectType ot){
     if (ot == yellowBot){
         for (int i = 0; i < yellowBotCurves->size(); i++){

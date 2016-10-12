@@ -75,7 +75,8 @@ SOURCES += \
     src/robotplot.cpp \
     src/robotcurve.cpp \
     src/fspinbox.cpp \
-    src/fslider.cpp
+    src/fslider.cpp \
+    src/trashcan.cpp
 
 HEADERS  += \
     src/mainwindow.h \
@@ -135,4 +136,5 @@ HEADERS  += \
     src/robotplot.h \
     src/robotcurve.h \
     src/fspinbox.h \
-    src/fslider.h
+    src/fslider.h \
+    src/trashcan.h

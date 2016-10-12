@@ -74,14 +74,14 @@ public:
   }TeamTypes;
 
 private:
-  static const double minZValue; //= -10;
-  static const double maxZValue; //= 10;
-  static const double FieldZ; //= 1.0;
-  static const double RobotZ; //= 2.0;
-  static const double BallZ; //= 3.0;
+  static const double minZValue = -10;
+  static const double maxZValue = 10;
+  static const double FieldZ = 1.0;
+  static const double RobotZ = 2.0;
+  static const double BallZ = 3.0;
   static const int PreferedWidth = 1024;
   static const int PreferedHeight = 768;
-  static const double MinRedrawInterval; //= 0.016; ///Minimum time between graphics updates (limits the fps)
+  static const double MinRedrawInterval = 0.016; ///Minimum time between graphics updates (limits the fps)
   static const int unknownRobotID = -1;
 
   QVector <QVector<Robot> > robots;

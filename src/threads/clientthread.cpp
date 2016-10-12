@@ -12,7 +12,13 @@ void clientThread::run(){
     client.open(false);
     while(runThread) {
         while (client.receive(*packet)) {
-            mw->updateTimeStep(packet);
+            if(packet->IsInitialized()){
+                mw->updateTimeStep(packet);
+            }
+            else{
+                std::cout<<"packet not properly initulized"<<std::endl;
+            }
+            packet = new SSL_WrapperPacket();
         }
         Sleep(minDuration);
     }

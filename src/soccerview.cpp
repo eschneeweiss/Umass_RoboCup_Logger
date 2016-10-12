@@ -24,15 +24,6 @@
 #include "util/field.h"
 #include "util/field_default_constants.h"
 
-//temp fix
-const double GLSoccerView::minZValue = -10;
-const double GLSoccerView::maxZValue = 10;
-const double GLSoccerView::FieldZ = 1.0;
-const double GLSoccerView::RobotZ = 2.0;
-const double GLSoccerView::BallZ = 3.0;
-const double GLSoccerView::MinRedrawInterval = 0.016;
-
-
 using FieldConstantsRoboCup2014::kNumFieldLines;
 using FieldConstantsRoboCup2014::kNumFieldArcs;
 using FieldConstantsRoboCup2014::kFieldLines;

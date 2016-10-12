@@ -22,21 +22,16 @@ author  Eddy Schneeweiss (C) 2016
 #include "mainwindow.h"
 #include <QtWidgets>
 
-MainWindow::MainWindow(char *path, char *filename, unsigned int frame, double speed, char *configFile)// : QMainWindow(parent)
+MainWindow::MainWindow(char *path, char *filename, unsigned int frame, double speed)// : QMainWindow(parent)
 {
-    printf("path: %s, filename: %s, frame: %u, speed: %f, configFile: %s\n", path, filename, frame, speed, configFile);
+    printf("path: %s, filename: %s, frame: %u, speed: %f\n", path, filename, frame, speed);
     int initH = 720;
     int initW = 1080;
     setWindowTitle(tr("UMass SSL Logger"));
 
     //resize(initW, initH);
 
-    ct = new clientThread(this);
-    playingLiveFeed = true;
-    ct->start();
-
-
-    lv = new log_viewer(this, QSize(initW*0.25,initH*0.25));
+    lv = new log_viewer(this);
     QDockWidget *LVdock = new QDockWidget(tr("Log"), this);
     LVdock->setAllowedAreas(Qt::BottomDockWidgetArea | Qt::RightDockWidgetArea | Qt::LeftDockWidgetArea);
     LVdock->setWidget(lv);
@@ -44,8 +39,8 @@ MainWindow::MainWindow(char *path, char *filename, unsigned int frame, double sp
     addDockWidget(Qt::RightDockWidgetArea, LVdock);
     //LVdock->resize(initW*0.25,initH*0.25);
 
-    tdv = new textData_viewer(this, QSize(initW*0.25,initH*0.75));
-    QDockWidget *TDVdock = new QDockWidget(tr("Text Data"), this);
+    tdv = new textData_viewer(this);
+    QDockWidget *TDVdock = new QDockWidget(tr("Packet Data"), this);
     TDVdock->setAllowedAreas(Qt::BottomDockWidgetArea | Qt::RightDockWidgetArea | Qt::LeftDockWidgetArea);
     TDVdock->setWidget(tdv);
     TDVdock->setMinimumSize(QSize(initW*0.25,initH*0.75));
@@ -53,7 +48,7 @@ MainWindow::MainWindow(char *path, char *filename, unsigned int frame, double sp
     //TDVdock->resize(initW*0.25,initH*0.75);
     connect(this, SIGNAL(displayTimeStep(SSL_WrapperPacket*)), tdv, SLOT(updateDisplay(SSL_WrapperPacket*)));
 
-    tv = new timestep_viewer(this, QSize(initW*0.75, initH*0.75));
+    tv = new timestep_viewer(this);
     QDockWidget *TVdock = new QDockWidget(tr("Time-step"), this);
     TVdock->setAllowedAreas(Qt::BottomDockWidgetArea | Qt::RightDockWidgetArea | Qt::LeftDockWidgetArea);
     TVdock->setWidget(tv);
@@ -62,7 +57,7 @@ MainWindow::MainWindow(char *path, char *filename, unsigned int frame, double sp
     //TVdock->resize(initW*0.75, initH*0.75);
     connect(this, SIGNAL(displayTimeStep(SSL_WrapperPacket*)), tv, SLOT(updateDisplay(SSL_WrapperPacket*)));
 
-    gv = new graph_viewer(this, QSize(initW*0.75, initH*0.25));
+    gv = new graph_viewer(this);
     QDockWidget *GVdock = new QDockWidget(tr("Graph"), this);
     GVdock->setAllowedAreas(Qt::BottomDockWidgetArea | Qt::RightDockWidgetArea | Qt::LeftDockWidgetArea);
     GVdock->setWidget(gv);
@@ -70,6 +65,16 @@ MainWindow::MainWindow(char *path, char *filename, unsigned int frame, double sp
     addDockWidget(Qt::LeftDockWidgetArea, GVdock);
     //GVdock->resize(initW*0.75, initH*0.25);
     connect(this, SIGNAL(displayTimeStep(SSL_WrapperPacket*)), gv, SLOT(updateDisplay(SSL_WrapperPacket*)));
+
+    trashCan = new TrashCan();
+
+    ct = new clientThread(this);
+    playingLiveFeed = true;
+    ct->start();
+
+    lv->setPath(path);
+    std::cout<<"about to play back log"<<std::endl;
+    lv->playBackLog(filename, frame, speed);
 
     //resizeDocks({TVdock, LVdock}, {(int)initW*0.75, (int)initW*0.25}, Qt::Horizontal);
 }
@@ -89,6 +94,7 @@ void MainWindow::logClicked(){
     ct = NULL;
     playingLogFile = true;
     tv->showPlayBackcontrol(lv->pbt);
+    tv->updateButtons(recording, playingLiveFeed, playingLogFile);
 }
 
 void MainWindow::playLiveClicked(){
@@ -112,6 +118,7 @@ void MainWindow::playLiveClicked(){
         ct = new clientThread(this);
         ct->start();
     }
+    tv->updateButtons(recording, playingLiveFeed, playingLogFile);
 }
 
 void MainWindow::recordClicked(){
@@ -123,12 +130,18 @@ void MainWindow::recordClicked(){
         recording = true;
         lv->createNewLogFile();
     }
+    tv->updateButtons(recording, playingLiveFeed, playingLogFile);
 }
 
 void MainWindow::updateTimeStep(SSL_WrapperPacket *packet){
     if (packet == NULL){
         return;
     }
+    unsigned int numUsers = 3;
+    if (recording){
+        numUsers++;
+    }
+    trashCan->addToTrashCan(packet, numUsers);
     if (recording){
         lv->storePacket(packet);
     }

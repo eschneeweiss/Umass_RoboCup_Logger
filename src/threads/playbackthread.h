@@ -23,7 +23,7 @@ public:
     int getFrame();
     void setFrame(unsigned int frame);
     int getTotalFrames();
-    void peek();
+    //void peek();
     const double MAXSPEED = 64;//2^6
     const double MINSPEED = 0.015625;//(1/2)^6
     bool paused;
@@ -33,13 +33,15 @@ private:
     protobuf_reader *pbr;
     MainWindow *mw;
     SSL_WrapperPacket *packet;
-    unsigned int frame;
+    unsigned int currFrame;
+    unsigned int nextFrame;
+    bool packetIsDestroyed;
     unsigned int totalFrames;
     Timer *timer;
     double startTime = 0;
     double speed = 1;
 
-    void getNextValidDetectionPacket();
+    void getNextValidDetectionPacket(SSL_WrapperPacket *packet);
 };
 
 #endif // PLAYBACKTHREAD_H

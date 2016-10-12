@@ -7,11 +7,11 @@
 #include "threads/playbackthread.h"
 #include "fspinbox.h"
 #include "fslider.h"
+#include "trashcan.h"
 //temp
 #include <iostream>
 
 class MainWindow;
-
 
 class timestep_viewer : public QWidget
 {
@@ -35,16 +35,16 @@ public:
 
     GLSoccerView *view;
 
-    explicit timestep_viewer(QWidget *parent, QSize initSize);
+    explicit timestep_viewer(QWidget *parent);
     ~timestep_viewer();
 
-    virtual QSize sizeHint();
     void hidePlayBackcontrol();
     void showPlayBackcontrol(playBackThread *pbt);
 
+    void updateButtons(bool recording, bool playingLiveFeed, bool playingLogFile);
+
 private:
-    QSize initSize;
-    MainWindow *myParent;
+    MainWindow *mw;
     playBackThread *pbt = NULL;
 
 signals:

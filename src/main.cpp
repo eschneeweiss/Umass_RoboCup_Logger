@@ -26,7 +26,6 @@ author  Eddy Schneeweiss (C) 2016
 
 char path[80];
 char filename[80];
-char configFile[80];
 unsigned int frame = 0;
 double speed = 1;
 
@@ -37,7 +36,7 @@ int main(int argc, char *argv[])
     parseArgs(argc, argv);
     QApplication app(argc, argv);
     MainWindow *mw;
-    mw = new MainWindow(path, filename, frame, speed, configFile);
+    mw = new MainWindow(path, filename, frame, speed);
     mw->show();
 
     int retVal = app.exec();
@@ -49,7 +48,7 @@ int main(int argc, char *argv[])
 
 //arguments: argc, argv
 //Iterates through the arguments and sets the aplication initualization variables
-// -p ssl_file_path, -f playback_filename, -n staring_frame_number, -s staring_frame_speed, -c config_file_path
+// -p ssl_file_path, -f playback_filename, -n staring_frame_number, -s staring_frame_speed
 void parseArgs(int argc, char *argv[]){
     for (int i = 1; i < argc; i++){
         char *opt = argv[i];
@@ -74,8 +73,6 @@ void parseArgs(int argc, char *argv[]){
                 frame = atoi(argv[i]);break;
             case 's':
                 speed = atof(argv[i]);break;
-            case 'c':
-                strcpy(configFile, argv[i]);break;
         }
     }
 }

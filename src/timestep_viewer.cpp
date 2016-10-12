@@ -1,19 +1,19 @@
 #include "timestep_viewer.h"
 #include "mainwindow.h"
 
-timestep_viewer::timestep_viewer(QWidget *parent, QSize initSize) : QWidget(parent)
+timestep_viewer::timestep_viewer(QWidget *parent) : QWidget(parent)
 {
-    myParent =  (MainWindow *)parent;
-    this->initSize = initSize;
-    std::cout<<"timeStep_viewer initSize: w"<<this->initSize.width()<<", h"<<this->initSize.height()<<std::endl;
+    mw =  (MainWindow *)parent;
 
     playLive = new QPushButton();
-    playLive->setText(tr("Play Live"));
+    playLive->setText(tr("Playing Live ..."));
     QObject::connect(playLive, SIGNAL(clicked()), parent, SLOT(playLiveClicked()));
+    QObject::connect(playLive, SIGNAL(clicked()), this, SLOT(playLiveClicked()));
 
     record = new QPushButton();
     record->setText(tr("Record"));
     QObject::connect(record, SIGNAL(clicked()), parent, SLOT(recordClicked()));
+    QObject::connect(record, SIGNAL(clicked()), this, SLOT(recordClicked()));
 
     hLayout1 = new QHBoxLayout();
     hLayout1->addWidget(playLive);
@@ -28,7 +28,7 @@ timestep_viewer::timestep_viewer(QWidget *parent, QSize initSize) : QWidget(pare
     QObject::connect(slowDown, SIGNAL(clicked()), this, SLOT(slowDownClicked()));
 
     pauseNplay = new QPushButton();
-    pauseNplay->setText(tr("Pause"));
+    pauseNplay->setText(tr("Play"));
     QObject::connect(pauseNplay, SIGNAL(clicked()), this, SLOT(pauseNplayClicked()));
 
     speedUp = new QPushButton();
@@ -65,12 +65,9 @@ timestep_viewer::timestep_viewer(QWidget *parent, QSize initSize) : QWidget(pare
     vLayout->addLayout(hLayout3);
     vLayout->addWidget(view);
 
-    hidePlayBackcontrol();
-}
+    this->show();
 
-QSize timestep_viewer::sizeHint(){
-    std::cout<<"timeStep_viewer sizeHint called"<<std::endl;
-    return initSize;
+    hidePlayBackcontrol();
 }
 
 void timestep_viewer::updateDisplay(SSL_WrapperPacket *packet){
@@ -89,11 +86,49 @@ void timestep_viewer::updateDisplay(SSL_WrapperPacket *packet){
     if (packet->has_geometry()){
         view->updateFieldGeometry(packet->geometry().field());
     }
+    mw->trashCan->throwAway(packet);
+}
+
+void timestep_viewer::updateButtons(bool recording, bool playingLiveFeed, bool playingLogFile){
+    if (recording) {
+        record->setText(tr("Recording ..."));
+    }
+    else {
+        record->setText(tr("Record"));
+    }
+
+    if (playingLiveFeed) {
+        playLive->setText(tr("Playing Live ..."));
+    }
+    else {
+        playLive->setText(tr("Play Live"));
+    }
+
+    if (playingLogFile) {
+        if (pbt){
+            if (pbt->paused){
+                pauseNplay->setText(tr("Play"));
+            }
+            else {
+                pauseNplay->setText(tr("Pause"));
+            }
+        }
+    }
+    else {
+        pauseNplay->setText(tr("Play"));
+    }
 }
 
 void timestep_viewer::jumpBackClicked(){
     if (pbt){
-        pbt->setFrame(pbt->getFrame() - 200);
+        unsigned int newFrame = pbt->getFrame();
+        if (newFrame < 200){
+            newFrame = 0;
+        }
+        else{
+            newFrame -= 200;
+        }
+        pbt->setFrame(newFrame);
     }
 }
 
@@ -106,6 +141,12 @@ void timestep_viewer::slowDownClicked(){
 void timestep_viewer::pauseNplayClicked(){
     if (pbt){
         pbt->pause();
+        if (pbt->paused){
+            pauseNplay->setText(tr("Play"));
+        }
+        else {
+            pauseNplay->setText(tr("Pause"));
+        }
     }
 }
 

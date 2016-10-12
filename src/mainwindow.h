@@ -26,6 +26,7 @@ author  Eddy Schneeweiss (C) 2016
 #include "textdata_viewer.h"
 #include "proto/cpp/messages_robocup_ssl_wrapper.pb.h"
 #include "threads/clientthread.h"
+#include "trashcan.h"
 
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
@@ -35,12 +36,13 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    log_viewer *lv;
-    timestep_viewer *tv;
-    graph_viewer *gv;
-    textData_viewer *tdv;
+    log_viewer *lv = NULL;
+    timestep_viewer *tv = NULL;
+    graph_viewer *gv = NULL;
+    textData_viewer *tdv = NULL;
+    TrashCan *trashCan;
 
-    explicit MainWindow(char *path, char *filename, unsigned int frame, double speed, char *configFile);
+    explicit MainWindow(char *path, char *filename, unsigned int frame, double speed);
     ~MainWindow();
 
     //parameters: packet

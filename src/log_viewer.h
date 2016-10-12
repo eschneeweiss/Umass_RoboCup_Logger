@@ -15,6 +15,7 @@
 #include <string>
 #include "threads/playbackthread.h"
 #include <QListWidget>
+#include "trashcan.h"
 //#include "mainwindow.h"
 //temp
 #include <iostream>
@@ -24,20 +25,21 @@ using namespace std;
 
 class MainWindow;
 
-
 class log_viewer : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit log_viewer(QWidget *parent, QSize initSize);
+    explicit log_viewer(QWidget *parent);
     ~log_viewer();
 
     void storePacket(SSL_WrapperPacket *packet);
+    bool playBackLog(char *fileName, unsigned int frame, double speed);
     bool createNewLogFile();
     bool setPath(char *p);
     bool getLogs();
-    virtual QSize sizeHint();
+    bool isValidLog(char *log);
+    bool isValidPath(char *p);
 
     playBackThread *pbt = NULL;
 
@@ -48,7 +50,6 @@ public slots:
 private:
 
     MainWindow *mw;
-    QSize initSize;
     protobuf_reader *pbr = NULL;
     protobuf_writer *pbw = NULL;
     char defaultPath[80]; //char *defaultPath = "../ssl_Logs/";

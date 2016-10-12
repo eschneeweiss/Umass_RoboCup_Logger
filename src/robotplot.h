@@ -29,6 +29,7 @@ public:
     void addObject(int id, enum ObjectType ot);
     void trimCurves(double currTime, enum ObjectType ot);
     bool removeObject(int id, enum ObjectType ot);
+    void removeUnupdatedObjects(double currentTime, enum ObjectType ot);
     bool hideObject(int id, enum ObjectType ot);
     bool showObject(int id, enum ObjectType ot);
     void addPointToObject(double x, double y, double time, int id, enum ObjectType ot);

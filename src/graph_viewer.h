@@ -11,23 +11,24 @@
 #include <math.h>
 #include <QVector>
 #include "robotplot.h"
+#include "trashcan.h"
 //temp
 #include <iostream>
 
 using namespace std;
 
+class MainWindow;
+
 class graph_viewer : public QWidget
 {
     Q_OBJECT
 public:
-    explicit graph_viewer(QWidget *parent, QSize initSize);
+    explicit graph_viewer(QWidget *parent);
     ~graph_viewer();
 
-    virtual QSize sizeHint();
-
 private:
+    MainWindow *mw;
     RobotPlot *plot;
-    QSize initSize;
 
 signals:
 
