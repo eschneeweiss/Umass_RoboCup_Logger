@@ -8,12 +8,10 @@ timestep_viewer::timestep_viewer(QWidget *parent) : QWidget(parent)
     playLive = new QPushButton();
     playLive->setText(tr("Playing Live ..."));
     QObject::connect(playLive, SIGNAL(clicked()), parent, SLOT(playLiveClicked()));
-    QObject::connect(playLive, SIGNAL(clicked()), this, SLOT(playLiveClicked()));
 
     record = new QPushButton();
     record->setText(tr("Record"));
     QObject::connect(record, SIGNAL(clicked()), parent, SLOT(recordClicked()));
-    QObject::connect(record, SIGNAL(clicked()), this, SLOT(recordClicked()));
 
     hLayout1 = new QHBoxLayout();
     hLayout1->addWidget(playLive);

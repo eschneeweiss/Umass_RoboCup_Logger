@@ -73,7 +73,6 @@ MainWindow::MainWindow(char *path, char *filename, unsigned int frame, double sp
     ct->start();
 
     lv->setPath(path);
-    std::cout<<"about to play back log"<<std::endl;
     lv->playBackLog(filename, frame, speed);
 
     //resizeDocks({TVdock, LVdock}, {(int)initW*0.75, (int)initW*0.25}, Qt::Horizontal);

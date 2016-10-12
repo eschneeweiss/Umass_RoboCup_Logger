@@ -38,12 +38,10 @@ bool log_viewer::playBackLog(QListWidgetItem *fileName){
         //start playBackThread
         pbt = new playBackThread(pbr, mw);
         mw->logClicked();
-        //temp: should be pbt->peek();
-        pbt->setFrame(1);
+        pbt->setFrame(0);
         return true;
     }
     else {
-        std::cout<<"invalid file name"<<std::endl;
         getLogs();
         return false;
     }
@@ -60,7 +58,6 @@ bool log_viewer::playBackLog(char *fileName, unsigned int frame, double speed){
     char fileToOpen[100] = "";
     strcat(fileToOpen, path);
     strcat(fileToOpen, fileName);
-    std::cout<<"about to attempt to open a file"<<std::endl;
     if (isValidLog(fileName)) {
         try{
             pbr = new protobuf_reader(fileToOpen);
@@ -70,14 +67,12 @@ bool log_viewer::playBackLog(char *fileName, unsigned int frame, double speed){
         }
         //start playBackThread
         pbt = new playBackThread(pbr, mw);
-        std::cout<<"about to say log clicked"<<std::endl;
         mw->logClicked();
         pbt->setFrame(frame);
         pbt->setSpeed(speed);
         return true;
     }
     else {
-        std::cout<<"invalid file name"<<std::endl;
         getLogs();
         return false;
     }
