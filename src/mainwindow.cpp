@@ -25,8 +25,8 @@ author  Eddy Schneeweiss (C) 2016
 MainWindow::MainWindow(char *path, char *filename, unsigned int frame, double speed)// : QMainWindow(parent)
 {
     printf("path: %s, filename: %s, frame: %u, speed: %f\n", path, filename, frame, speed);
-    int initH = 720;
-    int initW = 1080;
+    int initH = 800;//720
+    int initW = 1300;//1080
     setWindowTitle(tr("UMass SSL Logger"));
 
     //resize(initW, initH);
