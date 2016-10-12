@@ -12,12 +12,21 @@ Software requirements:
 
 To download:
 
-sudo apt-get install g++ qt5-default protobuf-compiler libprotobuf-dev
+Blah$ sudo apt-get install g++ qt5-default protobuf-compiler libprotobuf-dev
 
 
 Installation instructions:
 
-1. cd into the Umass_RoboCup_Logger package
-2. run qmake on Umass_RoboCup_Logger.pro
-3. run make
+1. cd into the Umass_RoboCup_Logger package  Blah$ cd pathToLogger/Umass_RoboCup_Logger
+2. run qmake on Umass_RoboCup_Logger.pro     Blah$ Umass_RoboCup_Logger.pro
+3. run make                                  Blah$ make
 
+Running the application:
+
+there are four command line arguments:
+  -p ssl_file_path, -f playback_filename.ssl , -n staring_frame_number, -s staring_frame_speed
+
+note: these command line arguments are not necessary, the application has default arguments. 
+
+example:
+  Blah$ ./Umass_RoboCup_Logger -s 2.0 -f myFile.ssl -n 650 -p path/to/sslFiles
